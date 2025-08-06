@@ -9,26 +9,26 @@
                     "-std=c++20",
                     "-stdlib=libc++",
                     "main.cpp",
-                    "imgui/imgui.cpp",
+                    "imgui/imgui.cpp", //just manually complies files
                     "imgui/imgui_draw.cpp",
                     "imgui/imgui_tables.cpp",
                     "imgui/imgui_widgets.cpp",
                     "imgui/imgui_demo.cpp",
-                    "imgui/backends/imgui_impl_glfw.cpp",
-                    "imgui/backends/imgui_impl_opengl3.cpp",
+                    "imgui/backends/imgui_impl_glfw.cpp", //GLFW creates windows and stuff
+                    "imgui/backends/imgui_impl_opengl3.cpp", //Open GL is a library to communicate with GPU directly
                     "-Iimgui",
                     "-Iimgui/backends",
-                    "-I/usr/local/include",
-                    "-L/usr/local/lib",
-                    "-lglfw",
+                    "-I/usr/local/include", //-I is flag for searcging in [path]
+                    "-L/usr/local/lib", //-L is flag for linking libraries; kinda like -I but for libraries
+                    "-lglfw", //-l is flag for looking up libraries
                     "-framework",
-                    "OpenGL",
+                    "OpenGL", // gets stuff on screen
                     "-framework",
-                    "Cocoa",
+                    "Cocoa", //GUI framework for macOS
                     "-framework",
-                    "IOKit",
+                    "IOKit", // IOS drivers stuff; nub is like point of drivers connection
                     "-framework",
-                    "CoreVideo",
+                    "CoreVideo", // for video rendering
                     "-o",
                     "application"
                ],
