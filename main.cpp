@@ -8,29 +8,34 @@
 void RenderGUI()
 {
      ImGui::Begin("Test Window");
-     ImGui::Text("omg ");
+     ImGui::Text("dont do it ");
      ImGui::End();
 }
 
 int main()
 {
-     // Initialize GLFW
+     // Initialize GLFW aka library for creating windows
      if (!glfwInit())
      {
           fprintf(stderr, "Failed to initialize GLFW\n");
           return -1;
      }
 
-     // Setup OpenGL context for macOS (3.3 Core)
+     // Setup OpenGL context for macOS (3.3 Core) so Dear ImGui can render since this library
+     // communicates w GPU
      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+     // glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // first arg is like what r u cahnging second is its value
+     glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
+// TODO: work w imgui and make a window the same size as I want the pet. Put
+//  like a button to move it around that always stays the same
 #ifdef __APPLE__
      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required on Mac
 #endif
 
-     // Create window
-     GLFWwindow *window = glfwCreateWindow(800, 600, "Dear ImGui Window", NULL, NULL);
+     // Create window for like mac thingy
+     GLFWwindow *window = glfwCreateWindow(800, 200, "Dear ImGui Window", NULL, NULL);
      if (window == NULL)
      {
           fprintf(stderr, "Failed to create GLFW window\n");
@@ -38,16 +43,13 @@ int main()
           return -1;
      }
      glfwMakeContextCurrent(window);
-     glfwSwapInterval(1); // Enable vsync
+     glfwSwapInterval(1); // Enable vsync (sync frame rate w monitor refresh rate)
 
      // Setup Dear ImGui context
      IMGUI_CHECKVERSION();
      ImGui::CreateContext();
      ImGuiIO &io = ImGui::GetIO();
      (void)io;
-
-     // Setup Dear ImGui style
-     ImGui::StyleColorsDark();
 
      // Setup platform/renderer backends
      ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -58,7 +60,7 @@ int main()
      {
           glfwPollEvents();
 
-          // Start ImGui frame
+          // Start ImGui frame - inside one
           ImGui_ImplOpenGL3_NewFrame();
           ImGui_ImplGlfw_NewFrame();
           ImGui::NewFrame();
@@ -67,23 +69,24 @@ int main()
           RenderGUI();
 
           // Rendering
-          ImGui::Render();
           int display_w, display_h;
           glfwGetFramebufferSize(window, &display_w, &display_h);
-          glViewport(0, 0, display_w, display_h);
-          glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-          glClear(GL_COLOR_BUFFER_BIT);
+          glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+          glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+          ImGui::Render();
+
           ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-          glfwSwapBuffers(window);
+          glfwSwapBuffers(window); // renders dear imgui window
      }
 
      // Cleanup
-     ImGui_ImplOpenGL3_Shutdown();
+     /*ImGui_ImplOpenGL3_Shutdown();
      ImGui_ImplGlfw_Shutdown();
      ImGui::DestroyContext();
      glfwDestroyWindow(window);
-     glfwTerminate();
+     glfwTerminate();*/
 
      return 0;
 }
