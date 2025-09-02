@@ -8,13 +8,12 @@
 void RenderGUI()
 {
      ImGui::Begin("Test Window");
-     ImGui::Text("dont do it ");
+     ImGui::Text("just do it ");
      ImGui::End();
 }
 
 int main()
 {
-     // Initialize GLFW aka library for creating windows
      if (!glfwInit())
      {
           fprintf(stderr, "Failed to initialize GLFW\n");
@@ -26,15 +25,15 @@ int main()
      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
-     // glfwWindowHint(GLFW_DECORATED, GLFW_FALSE); // first arg is like what r u cahnging second is its value
      glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
-// TODO: work w imgui and make a window the same size as I want the pet. Put
-//  like a button to move it around that always stays the same
+     // TODO: work w imgui and make a window the same size as I want the pet. Put
+     //  like a button to move it around that always stays the same
+
 #ifdef __APPLE__
      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required on Mac
 #endif
 
-     // Create window for like mac thingy
+     // Create window for  mac
      GLFWwindow *window = glfwCreateWindow(800, 200, "Dear ImGui Window", NULL, NULL);
      if (window == NULL)
      {
